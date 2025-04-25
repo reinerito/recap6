@@ -40,7 +40,18 @@ export default function DetailsPage() {
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
 
   async function deletePlace() {
-    console.log("Deleting place ...");
+        
+    const response = await fetch(`/api/places/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+
+    await response.json();
+    router.push("/");
   }
 
   return (

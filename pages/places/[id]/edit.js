@@ -24,8 +24,8 @@ export default function EditPage() {
         throw new Error("Failed to update place");
       }
 
-      // If successful, redirect back to the place details page
-      router.push(`/places/${id}`);
+      // If successful, redirect to the homepage
+      router.push("/");
     } catch (error) {
       console.error("Error updating place:", error);
     }

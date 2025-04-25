@@ -7,27 +7,23 @@ export default function EditPage() {
   const router = useRouter();
   const { isReady } = router;
   const { id } = router.query;
-  const { data: place, isLoading, error } = useSWR(`/api/places/${id}`);
+  const { data: place, isLoading, error, mutate } = useSWR(`/api/places/${id}`);
 
-  async function editPlace(place) {
-    try {
-      // Make a PUT request to update the place
-      const response = await fetch(`/api/places/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(place),
-      });
+  async function editPlace(event) {
+    const formData = new FormData(event.target);
+    const placeData = Object.fromEntries(formData);
 
-      if (!response.ok) {
-        throw new Error("Failed to update place");
-      }
+    const response = await fetch(`/api/places/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(placeData)
+    });
 
-      // If successful, redirect to the homepage
-      router.push("/");
-    } catch (error) {
-      console.error("Error updating place:", error);
+    if (response.ok) {
+      mutate();
+      router.push(`/places/${id}`);
     }
   }
 

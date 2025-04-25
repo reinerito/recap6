@@ -7,7 +7,7 @@ export default function EditPage() {
   const router = useRouter();
   const { isReady } = router;
   const { id } = router.query;
-  const { data: place, isLoading, error, mutate } = useSWR(`/api/places/${id}`);
+  const { data: place, isLoading, error } = useSWR(`/api/places/${id}`);
 
   async function editPlace(event) {
     const formData = new FormData(event.target);
@@ -22,8 +22,7 @@ export default function EditPage() {
     });
 
     if (response.ok) {
-      mutate();
-      router.push(`/places/${id}`);
+      router.push(`/`);
     }
   }
 
